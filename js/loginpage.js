@@ -48,10 +48,12 @@ userpasswordInp.addEventListener("focus", function () {
   smallElementpassword.innerHTML = "";
   userpasswordInp.style.borderColor = "#237eee";
 });
+
 /* function  of validate Email */
-function validateEmail(inputText) {
-  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  if (inputText.value.match(mailformat)) {
+function validateEmail(userEmailInp) {
+  let userEMailRegex =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  if (userEMailRegex.test(userEmailInp) == true) {
     return true;
   } else {
     return false;
@@ -63,27 +65,28 @@ loginBtn.addEventListener("click", function () {
   console.log(validateEmail(userEmailInp));
   if (userEmailInp.value == "") {
     smallElement.innerHTML = "Please enter your email or username";
+    return;
   }
 
-  if (!validateEmail(userEmailInp)) {
-    smallElement.innerHTML = "Invalid email";
+  if (!validateEmail(userEmailInp.value)) {
+    smallElement.innerHTML = "This is not a valid email address";
+    return;
   }
 
   if (userpasswordInp.value == "") {
     smallElementpassword.innerHTML = "Please enter your password";
+    return;
   }
 
   for (let i = 0; i < users.length; i++) {
-    if (userpasswordInp.value != "" && userEmailInp.value != "") {
-      if (
-        userEmailInp.value == users[i].email &&
-        userpasswordInp.value == users[i].password
-      ) {
-        window.location.href = "todolist.html";
-      } else {
-        smallElement.innerHTML =
-          "Your email and password don't match our records. Please try again.";
-      }
+    if (
+      userEmailInp.value == users[i].email &&
+      userpasswordInp.value == users[i].password
+    ) {
+      window.location.href = "todolist.html";
+    } else {
+      smallElement.innerHTML =
+        "Your email and password don't match our records. Please try again.";
     }
   }
 });
