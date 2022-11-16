@@ -27,8 +27,11 @@ showBtn.addEventListener("click", function () {
 });
 /*Handling expected errors of email */
 userEmailInp.addEventListener("blur", function () {
-  if (validateEmail(userEmailInp.value) == false) {
-    smallElement.innerHTML = "This is not a valid email address";
+  if (userEmailInp.value == "") {
+    smallElement.innerHTML = "Please enter your email";
+    userEmailInp.style.borderColor = "red";
+  } else if (!validateEmail(userEmailInp.value)) {
+    smallElement.innerHTML = "This is not a valid email address"; //
     userEmailInp.style.borderColor = "red";
   } else {
     userEmailInp.style.borderColor = "#B9BECE";
@@ -67,7 +70,7 @@ userLnameInp.addEventListener("focus", function () {
 userpasswordInp.addEventListener("blur", function () {
   if (validatepassword(userpasswordInp.value) == false) {
     smallElementpassword.innerHTML =
-      "password must contain an uppercase letter and numbers";
+      "Password must contain an uppercase letter, numbers and at least 8 characters";
     userpasswordInp.style.borderColor = "red";
   } else {
     userpasswordInp.style.borderColor = "#B9BECE";
@@ -117,31 +120,32 @@ function validatepassword(userpasswordInp) {
 }
 /* add to local storage */
 function add() {
-  if (validateName(userFnameInp.value) == true) {
-    if (validateName(userLnameInp.value) == true) {
-      if (validatepassword(userpasswordInp.value) == true) {
-        let user = {
-          fname: userFnameInp.value,
-          lname: userLnameInp.value,
-          email: userEmailInp.value,
-          password: userpasswordInp.value,
-        };
-        users.push(user);
-        localStorage.setItem("usersdata", JSON.stringify(users));
-        window.location.href = "index.html";
-      } else {
-        smallElementpassword.innerHTML =
-          "password must contain an uppercase letter and numbers";
-        userpasswordInp.style.borderColor = "red";
-      }
-    } else {
-      smallElementLname.innerHTML =
-        "Name should not contain special characters or Numbers";
-      userLnameInp.style.borderColor = "red";
-    }
-  } else {
+  if (!validateName(userFnameInp.value)) {
     smallElementFname.innerHTML =
       "Name should not contain special characters or Numbers";
     userFnameInp.style.borderColor = "red";
+    return;
   }
+  if (!validateName(userLnameInp.value)) {
+    smallElementLname.innerHTML =
+      "Name should not contain special characters or Numbers";
+    userLnameInp.style.borderColor = "red";
+    return;
+  }
+  if (!validatepassword(userpasswordInp.value)) {
+    smallElementpassword.innerHTML =
+      "Password must contain an uppercase letter, numbers and at least 8 characters";
+    userpasswordInp.style.borderColor = "red";
+    return;
+  }
+
+  let user = {
+    fname: userFnameInp.value,
+    lname: userLnameInp.value,
+    email: userEmailInp.value,
+    password: userpasswordInp.value,
+  };
+  users.push(user);
+  localStorage.setItem("usersdata", JSON.stringify(users));
+  window.location.href = "index.html";
 }

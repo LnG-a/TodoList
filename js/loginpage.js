@@ -11,6 +11,7 @@ if (localStorage.getItem("usersdata") == null) {
 } else {
   users = JSON.parse(localStorage.getItem("usersdata"));
 }
+
 showBtn.addEventListener("click", function () {
   let moreSocialMedai = document.getElementById("more-social-medai");
   if (moreSocialMedai.style.display == "flex") {
@@ -62,7 +63,6 @@ function validateEmail(userEmailInp) {
 
 /* search in local storage */
 loginBtn.addEventListener("click", function () {
-  console.log(validateEmail(userEmailInp));
   if (userEmailInp.value == "") {
     smallElement.innerHTML = "Please enter your email or username";
     return;
@@ -84,9 +84,10 @@ loginBtn.addEventListener("click", function () {
       userpasswordInp.value == users[i].password
     ) {
       window.location.href = "todolist.html";
-    } else {
-      smallElement.innerHTML =
-        "Your email and password don't match our records. Please try again.";
+      return;
     }
   }
+
+  smallElement.innerHTML =
+    "Your email and password don't match our records. Please try again.";
 });
